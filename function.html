@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autoclick Trigger</title>
+</head>
+<body>
+    <button onclick="triggerAutoclick()">Run Autoclick</button>
+    <div id="status"></div>
+
+    <script>
+        async function triggerAutoclick() {
+            const status = document.getElementById('status');
+            status.textContent = 'Running autoclick...';
+            
+            try {
+                const response = await fetch('/trigger-autoclick', {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    status.textContent = 'Autoclick completed successfully!';
+                } else {
+                    status.textContent = 'Error: ' + result.error;
+                }
+            } catch (error) {
+                status.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

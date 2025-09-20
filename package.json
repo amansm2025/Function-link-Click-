@@ -1,0 +1,13 @@
+{
+  "name": "function-html-project",
+  "version": "1.0.0",
+  "description": "Link trigger HTML project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "autoclick": "cd .. && npm run autoclick"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}

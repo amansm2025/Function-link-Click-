@@ -4,22 +4,31 @@
     <title>Autoclick Trigger</title>
 </head>
 <body>
+    <input type="url" id="websiteUrl" placeholder="Enter website URL" value="https://example.com">
     <button onclick="triggerAutoclick()">Run Autoclick</button>
     <div id="status"></div>
+    <div id="results"></div>
 
     <script>
         async function triggerAutoclick() {
             const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            const url = document.getElementById('websiteUrl').value;
+            
             status.textContent = 'Running autoclick...';
+            results.textContent = '';
             
             try {
                 const response = await fetch('/trigger-autoclick', {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    status.textContent = 'Autoclick completed successfully!';
+                    status.textContent = 'Autoclick completed!';
+                    results.textContent = result.output;
                 } else {
                     status.textContent = 'Error: ' + result.error;
                 }

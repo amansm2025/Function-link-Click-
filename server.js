@@ -14,27 +14,34 @@ app.get('/', (req, res) => {
 
 app.post('/trigger-autoclick', async (req, res) => {
     try {
+        const { url } = req.body;
+        const targetUrl = url || 'https://example.com';
+        
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         
-        // Navigate to a test page
-        await page.goto('https://example.com');
+        await page.goto(targetUrl);
         
-        // Click on links (example)
         const links = await page.$$('a');
         let clickCount = 0;
+        let results = [];
         
-        for (let i = 0; i < Math.min(links.length, 3); i++) {
+        for (let i = 0; i < Math.min(links.length, 5); i++) {
+            const linkText = await links[i].evaluate(el => el.textContent.trim());
+            const linkHref = await links[i].evaluate(el => el.href);
+            
             await links[i].click();
             clickCount++;
-            await page.waitForTimeout(1000);
+            results.push(`Clicked: "${linkText}" (${linkHref})`);
+            
+            await page.waitForTimeout(500);
         }
         
         await browser.close();
         
         res.json({ 
             success: true, 
-            output: `Clicked ${clickCount} links successfully` 
+            output: `Visited: ${targetUrl}\nClicked ${clickCount} links:\n${results.join('\n')}` 
         });
     } catch (error) {
         res.status(500).json({ 

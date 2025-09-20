@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "autoclick": "cd .. && npm run autoclick"
+    "build": "echo 'Build complete'"
   },
   "dependencies": {
     "express": "^4.18.0"

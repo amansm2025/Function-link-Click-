@@ -13,13 +13,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/trigger-autoclick', (req, res) => {
-    exec('npm run autoclick', { cwd: path.join(__dirname, '..') }, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error}`);
-            return res.status(500).json({ success: false, error: error.message });
-        }
-        res.json({ success: true, output: stdout });
-    });
+    // Simulate autoclick functionality
+    console.log('Autoclick triggered!');
+    res.json({ success: true, output: 'Autoclick simulation completed' });
 });
 
 app.listen(port, () => {
